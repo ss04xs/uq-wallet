@@ -99,7 +99,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     new WorkboxPlugin.GenerateSW({
-      cacheId: 'easy-wallet',
+      cacheId: 'uq-wallet',
       globDirectory: config.build.assetsRoot,
       globPatterns: ['**/*.{html,js,css,png}'],
       swDest: path.join(config.build.assetsRoot, 'service-worker.js'),

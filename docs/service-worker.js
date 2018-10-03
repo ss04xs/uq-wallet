@@ -17,7 +17,7 @@ importScripts(
   "./precache-manifest.70f0bcdd0085cf429a272be1c787d1a6.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "easy-wallet"});
+workbox.core.setCacheNameDetails({prefix: "uq-wallet"});
 
 workbox.skipWaiting();
 workbox.clientsClaim();
