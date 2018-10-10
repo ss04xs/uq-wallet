@@ -26,7 +26,7 @@ import Wallet from './components/Wallet.vue'
 
 // クラス
 export default class App extends Vue {
-  private title = 'My NEM wallet'
+  private title = 'My UQ wallet'
   mounted () {}
 }
 </script>

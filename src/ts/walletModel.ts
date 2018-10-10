@@ -4,6 +4,7 @@ import nemWrapper from './nemWrapper'
 export default class walletModel {
     balance: number = 0
     address: string = ''
+    mosaic: string = ''
     publicKey: string = ''
     privateKey: string = ''
 
@@ -27,6 +28,7 @@ export default class walletModel {
             } else {
             // あればNEMの残高を取得します
                 this.getAccount()
+                this.getAccountMo()
             }
         }).catch((error) => {
             console.error(error)
@@ -54,7 +56,7 @@ export default class walletModel {
 
     // ローカルストレージから削除.
     async remove() {
-        let key = 'easy-wallet'
+        let key = 'uq-wallet'
         let result:any = await localForage.removeItem(key)
         return result
     }
@@ -70,6 +72,11 @@ export default class walletModel {
     async sendNem(address:string, amount:number, message:string)  {
         let result = await this.nem.sendNem(address, this.privateKey, amount, message)
         return result
+    }
+
+    // cacheモザイクの残高取得
+    async getAccountMo()  {
+        let result = await this.nem.getAccountMo(this.address)
     }
 
     toJSON() {

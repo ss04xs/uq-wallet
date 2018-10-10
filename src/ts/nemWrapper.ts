@@ -46,6 +46,13 @@ export default class nemWrapper {
         return result
     }
 
+    async getAccountMo(address: string) {
+        console.log("mosaics.owned")
+        let result = await nem.com.requests.account.mosaics.owned(this.endpoint, address)
+        console.log(result)
+        return result
+    }
+
     // 送金（NEM）
     async sendNem(address:string, privateKey:string, amount:number, message:string) {
         let common = nem.model.objects.create('common')('', privateKey)
