@@ -5,6 +5,8 @@ export default class walletModel {
     balance: number = 0
     address: string = ''
     mosaic: string = ''
+    mosaic_name: string = ''
+    mosaic_balance: number = 0
     publicKey: string = ''
     privateKey: string = ''
 
@@ -74,9 +76,11 @@ export default class walletModel {
         return result
     }
 
-    // cacheモザイクの残高取得
+    // モザイクの残高取得
     async getAccountMo()  {
         let result = await this.nem.getAccountMo(this.address)
+        this.mosaic_name = result.data[1].mosaicId.name
+        this.mosaic_balance = result.data[1].quantity / this.nem.getNemDivisibility()
     }
 
     toJSON() {
