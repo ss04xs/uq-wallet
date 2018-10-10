@@ -49,7 +49,10 @@ export default class nemWrapper {
     async getAccountMo(address: string) {
         console.log("mosaics.owned")
         let result = await nem.com.requests.account.mosaics.owned(this.endpoint, address)
-        console.log(result)
+        console.log("mosaics.mosaicname")
+        console.log(result.data[1].mosaicId.name)
+        console.log("mosaics.quantity")
+        console.log(result.data[1].quantity)
         return result
     }
 
