@@ -10,40 +10,33 @@
             <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
           </v-card-actions>
           <v-card-text>{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
-          <v-card-title><b>XEM残高</b></v-card-title>
-          <v-card-text>{{ wallet.balance }} xem</v-card-text>
-          <v-card-title><b>Myアドレス</b></v-card-title>
-          <v-card-text>{{ wallet.address }}</v-card-text>
-          <v-card flat><qriously v-model="qrJson" :size="qrSize" ></qriously></v-card>
         </v-card>
         <v-card flat>
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
-          <v-card-title><b>送金</b></v-card-title>
-            <v-text-field
-              label="送金先"
-              v-model="toAddr"
-              :counter="40"
-              required
-              placeholder="例. NBHWRG6STRXL2FGLEEB2UOUCBAQ27OSGDTO44UFC"
-            ></v-text-field>
-            <v-text-field
-              label="NEM"
-              v-model="toAmount"
-              type="number"
-              required
-            ></v-text-field>
-          <v-text-field
-            label="メッセージ"
+          <v-card-title><b>{{ wallet.mosaic_name }} コイン送金</b></v-card-title>
+          <v-text-field class="v-form"
+            label="UQ 1時間 = 100UQ"
+            v-model="toAmount"
+            type="number"
+            placeholder="1時間:100UQ "
+          ></v-text-field>
+          <v-text-field class="v-form"
+            label="備考"
             v-model="message"
             :counter="1024"
-            placeholder="例. ありがとう"
+            placeholder="例：私用のため"
           ></v-text-field>
           <v-flex>
             <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
           </v-flex>
         </v-card>
+        <v-card-title><b>XEM残高</b></v-card-title>
+          <v-card-text>{{ wallet.balance }} xem</v-card-text>
+        <v-card-title><b>Myアドレス</b></v-card-title>
+          <v-card-text>{{ wallet.address }}</v-card-text>
+          <v-card flat><qriously v-model="qrJson" :size="qrSize" ></qriously></v-card>
       </v-container>
     </v-card>
     </v-flex>
@@ -135,5 +128,8 @@ export default class Wallet extends Vue {
 }
 .errorLabel {
   color: red;
+}
+.v-form {
+  padding: 10px 20px;
 }
 </style>
