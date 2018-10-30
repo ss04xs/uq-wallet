@@ -55,6 +55,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import nemWrapper from '../ts/nemWrapper'
 import walletModel from '../ts/walletModel'
+import mosaicTransfer from '../ts/mosaicTransfer'
 
 @Component({
   name: 'wallet',
