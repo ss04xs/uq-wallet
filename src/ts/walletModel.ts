@@ -79,7 +79,7 @@ export default class walletModel {
     // モザイクの残高取得
     async getAccountMo()  {
         let result = await this.nem.getAccountMo(this.address)
-        this.mosaic_name = result.data[1].mosaicId.name
+        this.mosaic_name = result.data[1].mosaicId.name.toLowerCase()
         if ( result.data[1].mosaicId.name === "uq" ) {
             this.mosaic_balance = result.data[1].quantity / 1000
         } else {
