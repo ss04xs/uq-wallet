@@ -12,7 +12,7 @@
           <v-card-text>{{ wallet.balance }} xem</v-card-text>
           <v-card-title><b>{{ wallet.mosaic_name }}残高</b></v-card-title>
           <v-card-text>{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
-          <v-card-title><b>送金先アドレス</b></v-card-title>
+          <v-card-title><b>Myアドレス</b></v-card-title>
           <v-card-text>{{ wallet.address }}</v-card-text>
           <v-card flat><qriously v-model="qrJson" :size="qrSize" ></qriously></v-card>
         </v-card>
