@@ -81,7 +81,7 @@ export default class walletModel {
         let result = await this.nem.getAccountMo(this.address)
         this.mosaic_name = result.data[1].mosaicId.name
         if ( result.data[1].mosaicId.name === "uq" ) {
-            this.mosaic_balance = result.data[1].quantity / 3
+            this.mosaic_balance = result.data[1].quantity / 1000
         } else {
             this.mosaic_balance = result.data[1].quantity / this.nem.getNemDivisibility()
         }
