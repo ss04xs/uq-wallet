@@ -15,7 +15,7 @@
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
-          <v-card-title><b>{{ wallet.mosaic_name }} 有給申請</b></v-card-title>
+          <v-card-title><b>有給申請</b></v-card-title>
           <v-text-field class="v-form"
             label="UQ 1時間 = 100UQ"
             v-model="toAmount"
