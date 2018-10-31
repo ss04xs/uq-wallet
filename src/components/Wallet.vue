@@ -2,7 +2,7 @@
 <div class="wallet">
     <v-flex xs12 sm6 offset-sm3>
     <v-card>
-      <v-container fluid>
+      <v-container fluid class="v-main">
         <v-card flat>
           <v-card-actions>
             <v-card-title><b>{{ wallet.mosaic_name }}残高</b></v-card-title>
@@ -11,11 +11,11 @@
           </v-card-actions>
           <v-card-text>{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
         </v-card>
-        <v-card flat>
+        <v-card flat class="maBottom0">
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
-          <v-card-title><b>{{ wallet.mosaic_name }} コイン送金</b></v-card-title>
+          <v-card-title><b>{{ wallet.mosaic_name }} 有給申請</b></v-card-title>
           <v-text-field class="v-form"
             label="UQ 1時間 = 100UQ"
             v-model="toAmount"
@@ -28,7 +28,7 @@
             :counter="1024"
             placeholder="例：私用のため"
           ></v-text-field>
-          <v-flex>
+          <v-flex class="paBottom10">
             <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
           </v-flex>
         </v-card>
@@ -131,5 +131,26 @@ export default class Wallet extends Vue {
 }
 .v-form {
   padding: 10px 20px;
+}
+
+.v-main {
+  background-color: #f7f7f7;
+  border-radius: 0;
+}
+
+.v-card {
+  margin-bottom: 30px;
+}
+
+.v-card__text {
+  background-color: #fff;
+}
+
+.maBottom0 {
+  margin-bottom: 0;
+}
+
+.paBottom10 {
+  padding-bottom: 10px;
 }
 </style>

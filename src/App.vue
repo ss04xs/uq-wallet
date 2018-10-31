@@ -59,6 +59,7 @@ header span {
   display: block;
   position: relative;
   font-size: 20px;
+  font-weight: bold;
   line-height: 1;
   letter-spacing: .02em;
   font-weight: 400;
