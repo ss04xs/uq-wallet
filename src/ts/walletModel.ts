@@ -9,6 +9,8 @@ export default class walletModel {
     mosaic_balance: number = 0
     publicKey: string = ''
     privateKey: string = ''
+    uq_day: string = ''
+    uq_hour: string = ''
 
     nem = new nemWrapper()
 
@@ -82,6 +84,10 @@ export default class walletModel {
         this.mosaic_name = result.data[1].mosaicId.name.toUpperCase()
         if ( result.data[1].mosaicId.name === "uq" ) {
             this.mosaic_balance = result.data[1].quantity / 1000
+            let uq_x = this.mosaic_balance / 800
+            let uq_fract = uq_x * 10 % 10 /10;
+            this.uq_day = String(uq_x).split(".")[0]
+            this.uq_hour = String(uq_fract * 800 / 100)
         } else {
             this.mosaic_balance = result.data[1].quantity / this.nem.getNemDivisibility()
         }

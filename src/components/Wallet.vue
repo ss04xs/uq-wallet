@@ -2,20 +2,21 @@
 <div class="wallet">
     <v-flex xs12 sm6 offset-sm3>
     <v-card>
-      <v-container fluid class="v-main">
-        <v-card flat>
-          <v-card-actions>
-            <v-card-title><b>{{ wallet.mosaic_name }}残高</b></v-card-title>
-            <v-spacer />
-            <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
-          </v-card-actions>
+      <v-container fluid class="v-main paTop0">
+        <v-card-actions class="padding0">
+          <v-card-title><b>{{ wallet.mosaic_name }}残高</b></v-card-title>
+          <v-spacer />
+          <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
+        </v-card-actions>
+        <v-card flat class="v-shadow">
           <v-card-text>{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
         </v-card>
-        <v-card flat class="maBottom0">
+        <v-card-title><b>有給申請</b></v-card-title>
+        <v-card flat class="v-shadow">
+          <v-card-title>有給取得可能日数：　{{ wallet.uq_day }}日と{{ wallet.uq_hour }}時間</v-card-title>
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
-          <v-card-title><b>有給申請</b></v-card-title>
           <v-text-field class="v-form"
             label="UQ 1時間 = 100UQ"
             v-model="toAmount"
@@ -33,10 +34,12 @@
           </v-flex>
         </v-card>
         <v-card-title><b>XEM残高</b></v-card-title>
-          <v-card-text>{{ wallet.balance }} xem</v-card-text>
+          <v-card-text class="v-shadow">{{ wallet.balance }} xem</v-card-text>
         <v-card-title><b>Myアドレス</b></v-card-title>
-          <v-card-text>{{ wallet.address }}</v-card-text>
-          <v-card flat><qriously v-model="qrJson" :size="qrSize" ></qriously></v-card>
+          <v-card flat class="v-shadow">
+            <v-card-text>{{ wallet.address }}</v-card-text>
+            <qriously v-model="qrJson" :size="qrSize" ></qriously>
+          </v-card>
       </v-container>
     </v-card>
     </v-flex>
@@ -139,7 +142,10 @@ export default class Wallet extends Vue {
 }
 
 .v-card {
-  margin-bottom: 30px;
+}
+
+.v-shadow {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
 .v-card__text {
@@ -148,6 +154,18 @@ export default class Wallet extends Vue {
 
 .maBottom0 {
   margin-bottom: 0;
+}
+
+.padding0 {
+  padding: 0px;
+}
+
+.paTop0 {
+  padding-top: 0px;
+}
+
+.paTop30 {
+  padding-top: 30px;
 }
 
 .paBottom10 {
