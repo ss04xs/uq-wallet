@@ -10,7 +10,8 @@ export default class walletModel {
     publicKey: string = ''
     privateKey: string = ''
     uq_day: string = ''
-    uq_hour: string = ''
+    uq_hours: string = ''
+    uq_minutes: string = ''
 
     nem = new nemWrapper()
 
@@ -84,10 +85,13 @@ export default class walletModel {
         this.mosaic_name = result.data[1].mosaicId.name.toUpperCase()
         if ( result.data[1].mosaicId.name === "uq" ) {
             this.mosaic_balance = result.data[1].quantity / 1000
+            // 有給時間の計算
             let uq_x = this.mosaic_balance / 800
-            let uq_fract = uq_x * 10 % 10 /10;
+            let uq_fract_h = uq_x * 10 % 10 /10;
             this.uq_day = String(uq_x).split(".")[0]
-            this.uq_hour = String(uq_fract * 800 / 100)
+            this.uq_hours = String(uq_fract_h * 800 / 100).split(".")[0]
+            let uq_fract_m = Number(uq_fract_h * 800 / 100) * 10 % 10 /10;
+            this.uq_minutes = String(uq_fract_m * 100).split(".")[0]
         } else {
             this.mosaic_balance = result.data[1].quantity / this.nem.getNemDivisibility()
         }

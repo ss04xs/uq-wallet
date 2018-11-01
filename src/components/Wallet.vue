@@ -13,7 +13,7 @@
         </v-card>
         <v-card-title><b>有給申請</b></v-card-title>
         <v-card flat class="v-shadow">
-          <v-card-title>有給取得可能日数：　{{ wallet.uq_day }}日と{{ wallet.uq_hour }}時間</v-card-title>
+          <v-card-title>有給取得可能日数：　{{ wallet.uq_day }}日{{ wallet.uq_hours }}時間{{ wallet.uq_minutes }}時間</v-card-title>
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
