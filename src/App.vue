@@ -32,6 +32,9 @@ export default class App extends Vue {
 </script>
 
 <style>
+.application--wrap {
+  background-color: #F0EFF5;
+}
 body {
   margin: 0;
 }
@@ -51,9 +54,12 @@ header {
   margin: 0;
   height: 56px;
   padding: 0 16px 0 24px;
-  background-color: #33b8b3;
-  color: #ffffff;
+  margin-bottom: 4px;
+  color: #33b8b3;
+  background-color: #fff;
+  border-color: #fff;
   text-align: center;
+  box-shadow: 0 1px 0px 0px rgba(0,0,0,.2), 0 0px 0px 0 rgba(0,0,0,.14), 0 2px 0px 0 rgba(0,0,0,.12);
 }
 
 header span {

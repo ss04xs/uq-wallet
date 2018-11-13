@@ -87,11 +87,12 @@ export default class walletModel {
             this.mosaic_balance = result.data[1].quantity / 1000
             // 有給時間の計算
             let uq_x = this.mosaic_balance / 800
-            let uq_fract_h = uq_x * 10 % 10 /10;
+            let uq_fract_d = uq_x * 10 % 10 /10;
             this.uq_day = String(uq_x).split(".")[0]
-            this.uq_hours = String(uq_fract_h * 800 / 100).split(".")[0]
-            let uq_fract_m = Number(uq_fract_h * 800 / 100) * 10 % 10 /10;
-            this.uq_minutes = String(uq_fract_m * 100).split(".")[0]
+            this.uq_hours = String(uq_fract_d * 800 / 100).split(".")[0]
+            let uq_fract_m = Number(uq_fract_d * 800 / 100) * 10 % 10 /10;
+            let uq_fract_m2 = String(uq_fract_m * 100).split(".")[0]
+            this.uq_minutes = String(Number(uq_fract_m2)/100 * 60).split(".")[0]
         } else {
             this.mosaic_balance = result.data[1].quantity / this.nem.getNemDivisibility()
         }

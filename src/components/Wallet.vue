@@ -144,6 +144,7 @@ export default class Wallet extends Vue {
 }
 
 .v-card {
+  box-shadow: none;
 }
 
 .v-shadow {
@@ -159,7 +160,6 @@ export default class Wallet extends Vue {
   height: 30px;
   display: block;
   color: #fff;
-  font-weight: bold;
   border-radius: 0px 0px 6px 6px;
   margin-left: 12px;
   padding: 5px;
@@ -175,18 +175,6 @@ export default class Wallet extends Vue {
 
 .sinsei_color {
   background-color: #60B4EA;
-}
-
-.uq_board {
-  background: #60B4EA;
-  width: 80px;
-  height: 30px;
-  display: block;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 0px 0px 6px 6px;
-  margin-left: 12px;
-  padding: 5px;
 }
 
 .maBottom0 {
