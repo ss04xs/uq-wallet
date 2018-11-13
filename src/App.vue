@@ -53,6 +53,7 @@ header {
   padding: 0 16px 0 24px;
   background-color: #33b8b3;
   color: #ffffff;
+  text-align: center;
 }
 
 header span {

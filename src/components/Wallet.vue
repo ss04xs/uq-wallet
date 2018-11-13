@@ -4,15 +4,16 @@
     <v-card>
       <v-container fluid class="v-main paTop0">
         <v-card-actions class="padding0">
-          <v-card-title><b>{{ wallet.mosaic_name }}残高</b></v-card-title>
+          <v-card-title></v-card-title>
           <v-spacer />
           <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
         </v-card-actions>
-        <v-card flat class="v-shadow">
-          <v-card-text>{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
+        <v-card flat class="v-shadow maBottom30">
+          <span class="tile_board uq_color">{{ wallet.mosaic_name }}残高</span>
+          <v-card-text class="pa10">{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
         </v-card>
-        <v-card-title><b>有給申請</b></v-card-title>
-        <v-card flat class="v-shadow">
+        <v-card flat class="v-shadow maBottom30">
+          <span class="tile_board sinsei_color">有給申請</span>
           <v-card-title>有給取得可能日数：　{{ wallet.uq_day }}日{{ wallet.uq_hours }}時間{{ wallet.uq_minutes }}分</v-card-title>
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
@@ -33,13 +34,14 @@
             <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
           </v-flex>
         </v-card>
-        <v-card-title><b>XEM残高</b></v-card-title>
-          <v-card-text class="v-shadow">{{ wallet.balance }} xem</v-card-text>
-        <v-card-title><b>Myアドレス</b></v-card-title>
-          <v-card flat class="v-shadow">
-            <v-card-text>{{ wallet.address }}</v-card-text>
-            <qriously v-model="qrJson" :size="qrSize" ></qriously>
-          </v-card>
+        <v-card flat class="v-shadow maBottom30">
+          <span class="tile_board nem_color">XEM残高</span>
+          <v-card-text class="pa10">{{ wallet.balance }} xem</v-card-text>
+        </v-card>
+        <v-card flat class="v-shadow">
+          <v-card-text class="pa10">{{ wallet.address }}</v-card-text>
+          <qriously v-model="qrJson" :size="qrSize" ></qriously>
+        </v-card>
       </v-container>
     </v-card>
     </v-flex>
@@ -137,7 +139,7 @@ export default class Wallet extends Vue {
 }
 
 .v-main {
-  background-color: #f7f7f7;
+  background-color: #F0EFF5;
   border-radius: 0;
 }
 
@@ -152,8 +154,51 @@ export default class Wallet extends Vue {
   background-color: #fff;
 }
 
+.tile_board {
+  width: 80px;
+  height: 30px;
+  display: block;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0px 0px 6px 6px;
+  margin-left: 12px;
+  padding: 5px;
+}
+
+.uq_color {
+  background-color: #00C6B2;
+}
+
+.nem_color {
+  background-color: #EEA51B;
+}
+
+.sinsei_color {
+  background-color: #60B4EA;
+}
+
+.uq_board {
+  background: #60B4EA;
+  width: 80px;
+  height: 30px;
+  display: block;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 0px 0px 6px 6px;
+  margin-left: 12px;
+  padding: 5px;
+}
+
 .maBottom0 {
   margin-bottom: 0;
+}
+
+.maBottom30 {
+  margin-bottom: 30px;
+}
+
+.pa10 {
+  padding: 10px;
 }
 
 .padding0 {
