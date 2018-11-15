@@ -160,8 +160,8 @@ export default class Wallet extends Vue {
   height: 30px;
   display: block;
   color: #fff;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   margin-left: 12px;
