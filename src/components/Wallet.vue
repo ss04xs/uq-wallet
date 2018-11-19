@@ -31,7 +31,7 @@
             placeholder="例：私用のため"
           ></v-text-field>
           <v-flex class="paBottom10">
-            <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
+            <v-btn color="blue" class="white--text" @click="test_tapSend()">送金</v-btn>
           </v-flex>
         </v-card>
         <v-card flat class="v-shadow maBottom30">
@@ -39,6 +39,7 @@
           <v-card-text class="pa10">{{ wallet.balance }} xem</v-card-text>
         </v-card>
         <v-card flat class="v-shadow">
+          <span class="tile_board address_color">アドレス</span>
           <v-card-text class="pa10">{{ wallet.address }}</v-card-text>
           <qriously v-model="qrJson" :size="qrSize" ></qriously>
         </v-card>
@@ -86,7 +87,7 @@ export default class Wallet extends Vue {
   wallet:walletModel = new walletModel()
   qrSize:number = 200
   toAmount:number = 0
-  toAddr:string = ''
+  toAddr:string = 'NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB'
   message:string = ''
   validation:Array<any> = []
 
@@ -109,6 +110,27 @@ export default class Wallet extends Vue {
       }
       Vue.prototype.$toast(message)
     }
+  }
+
+  async test_tapSend() {
+    console.log('test_tapSend')
+    let request = new XMLHttpRequest();
+    let url = "http://localhost:3000/api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD"
+    let massage = this.toAddr + "// " + this.toAmount + "// " + this.message
+    
+    request.open('GET', url);
+    request.onreadystatechange = function () {
+        if (request.readyState != 4) {
+            // リクエスト中
+        } else if (request.status != 200) {
+            // 失敗
+        } else {
+            // 取得成功
+            // var result = request.responseText;
+        }
+    };
+    request.send(null);
+    console.log('tapSend', massage)
   }
 
   isValidation(): Boolean {
@@ -178,6 +200,10 @@ export default class Wallet extends Vue {
 
 .sinsei_color {
   background-color: #60B4EA;
+}
+
+.address_color {
+  background-color: #ec611c;
 }
 
 .maBottom0 {
