@@ -51,7 +51,10 @@ main {
 }
 
 header {
+  position: fixed;
+  z-index: 1;
   margin: 0;
+  width: 100%;
   height: 56px;
   padding: 0 16px 0 24px;
   margin-bottom: 4px;

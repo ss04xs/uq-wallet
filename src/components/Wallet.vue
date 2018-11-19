@@ -43,6 +43,7 @@
           <v-card-text class="pa10">{{ wallet.address }}</v-card-text>
           <qriously v-model="qrJson" :size="qrSize" ></qriously>
         </v-card>
+        <a class="to_edit_btn" href="https://uq-data.herokuapp.com/"><span class="oi oi-cog"></span></a>
       </v-container>
     </v-card>
     </v-flex>
@@ -115,10 +116,11 @@ export default class Wallet extends Vue {
   async test_tapSend() {
     console.log('test_tapSend')
     let request = new XMLHttpRequest();
-    let url = "http://localhost:3000/api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD"
-    let massage = this.toAddr + "// " + this.toAmount + "// " + this.message
-    
-    request.open('GET', url);
+    let url = "http://localhost:3000/api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD?message="
+    let message = this.toAmount + "_" + this.message
+    let request_url = url + message
+  console.log(request_url)
+    request.open('GET', request_url);
     request.onreadystatechange = function () {
         if (request.readyState != 4) {
             // リクエスト中
@@ -130,7 +132,7 @@ export default class Wallet extends Vue {
         }
     };
     request.send(null);
-    console.log('tapSend', massage)
+    console.log('tapSend', message)
   }
 
   isValidation(): Boolean {
@@ -148,10 +150,12 @@ export default class Wallet extends Vue {
     return !isError
   }
 }
+
 </script>
 <style scoped>
 .wallet {
   word-break: break-all;
+  padding-top: 56px;
 }
 .errorLabel {
   color: red;
@@ -232,5 +236,31 @@ export default class Wallet extends Vue {
 
 .paBottom10 {
   padding-bottom: 10px;
+}
+.to_edit_btn {
+  position: fixed;
+  bottom: 10px; 
+  right: 10px;
+  padding: 3px;
+  font: inherit;
+  background: #33b8b3;
+  font-family: -apple-system,'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 56px;
+  height: 56px;
+  text-decoration: none;
+  font-size: 25px;
+  line-height: 56px;
+  letter-spacing: 0;
+  color: #fff !important;;
+  border: 0 solid currentColor;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0,0,0,.12);
+  transition: all .1s linear;
 }
 </style>
