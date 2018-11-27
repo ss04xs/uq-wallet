@@ -31,7 +31,7 @@
             placeholder="例：私用のため"
           ></v-text-field>
           <v-flex class="paBottom10">
-            <v-btn color="blue" class="white--text" @click="test_tapSend()">送金</v-btn>
+            <v-btn color="blue" class="white--text" @click="openModal()">送金</v-btn>
           </v-flex>
         </v-card>
         <v-card flat class="v-shadow maBottom30">
@@ -47,6 +47,22 @@
       </v-container>
     </v-card>
     </v-flex>
+    <div class="example-modal-window">
+    <p>ボタンを押すとモーダルウィンドウが開きます</p>
+    <button @click="openModal">開く</button>
+    <!-- コンポーネント ConfirmationModal -->
+    <ConfirmationModal @close="closeModal" v-if="modal">
+      <!-- default スロットコンテンツ -->
+      <p>Vue.js Modal Window!</p>
+      <div><input v-model="message"></div>
+      <!-- /default -->
+      <!-- footer スロットコンテンツ -->
+      <template slot="footer">
+        <button @click="doSend">送信</button>
+      </template>
+      <!-- /footer -->
+    </ConfirmationModal>
+  </div>
 </div>
 </template>
 
@@ -56,11 +72,13 @@ import Component from 'vue-class-component'
 import nemWrapper from '../ts/nemWrapper'
 import walletModel from '../ts/walletModel'
 import mosaicTransfer from '../ts/mosaicTransfer'
+import ConfirmationModal from './ConfirmationModal.vue'
 
 @Component({
   name: 'wallet',
   data: () => ({
     nem: new nemWrapper(),
+    modal: false,
     qrJson: '',
     rules: {
       senderAddrLimit: (value:string) => (value && (value.length === 46 || value.length === 40)) || '送金先アドレス(-除く)は40文字です。',
@@ -80,7 +98,8 @@ import mosaicTransfer from '../ts/mosaicTransfer'
     'wallet.address' (newVal, oldVal) {
       this.$data.qrJson = this.$data.nem.getQRcodeJson('2', 2, '', newVal, 0, '')
     }
-  }
+  },
+  components: { ConfirmationModal }
 })
 
 export default class Wallet extends Vue {
@@ -93,6 +112,24 @@ export default class Wallet extends Vue {
   validation:Array<any> = []
 
   mounted () {}
+
+  //modal
+  openModal() {
+    this.$data.modal = true
+  }
+  closeModal() {
+    this.$data.modal = false
+  }
+  doSend() {
+    if (this.$data.message.length > 0) {
+      alert(this.toAmount + this.$data.message+"の内容で送信します。")
+      this.$data.modal = false
+      this.test_tapSend()
+    } else {
+      alert('メッセージを入力してください')
+    }
+  }
+  //
 
   async getAccount () {
     this.isLoading = true

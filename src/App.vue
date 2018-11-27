@@ -14,6 +14,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 // Walletをimportする.
 import Wallet from './components/Wallet.vue'
+//import Modal from './components/Modal.vue'
 
 // コンポーネントの設定
 @Component({
