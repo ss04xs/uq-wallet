@@ -8,9 +8,9 @@
           <v-spacer />
           <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
         </v-card-actions>
-        <v-card flat class="v-shadow maBottom30">
+        <v-card flat class="v-shadow maBottom30 mosaic">
           <span class="tile_board uq_color">{{ wallet.mosaic_name }}残高</span>
-          <v-card-text class="pa10">{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
+          <v-card-text class="pa10" id="balance">{{ wallet.mosaic_balance }} {{ wallet.mosaic_name }}</v-card-text>
         </v-card>
         <v-card flat class="v-shadow maBottom30">
           <span class="tile_board sinsei_color">有給申請</span>
@@ -18,10 +18,18 @@
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
+          <div class="form-group v-card__title">
+            <label class="input_label">休暇予定日を入力</label>
+            <input
+              class="form-control"
+              v-model="toDate"
+              name="today"
+              id="today"
+              type="date">
+          </div>
           <v-text-field class="v-form"
             label="UQ 1時間 = 100UQ"
             v-model="toAmount"
-            type="number"
             placeholder="1時間:100UQ "
           ></v-text-field>
           <v-text-field class="v-form"
@@ -107,6 +115,7 @@ export default class Wallet extends Vue {
   wallet:walletModel = new walletModel()
   qrSize:number = 200
   toAmount:number = 0
+  toDate:string = ''
   toAddr:string = 'NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB'
   message:string = ''
   validation:Array<any> = []
@@ -153,10 +162,11 @@ export default class Wallet extends Vue {
   async test_tapSend() {
     console.log('test_tapSend')
     let request = new XMLHttpRequest();
-    let url = "http://localhost:3000/api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD?message="
-    let message = this.toAmount + "_" + this.message
-    let request_url = url + message
-  console.log(request_url)
+    let url = "https://uq-data.herokuapp.com//api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD?message="
+    let amount_date = "&amount=" + this.toAmount + "&date=" + this.toDate
+    let message = this.message
+    let request_url = url + message + amount_date
+    console.log(request_url)
     request.open('GET', request_url);
     request.onreadystatechange = function () {
         if (request.readyState != 4) {
@@ -187,8 +197,8 @@ export default class Wallet extends Vue {
     return !isError
   }
 }
-
 </script>
+
 <style scoped>
 .wallet {
   word-break: break-all;
@@ -299,5 +309,15 @@ export default class Wallet extends Vue {
   border-radius: 50%;
   box-shadow: 0 3px 6px rgba(0,0,0,.12);
   transition: all .1s linear;
+}
+
+.input_label {
+  color: #666;
+  font-size: 12px;
+}
+/* counter */
+#balance {
+  color: #000;
+  font-size: 16px;
 }
 </style>
