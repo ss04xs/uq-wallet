@@ -120,6 +120,7 @@ export default class Wallet extends Vue {
   wallet:walletModel = new walletModel()
   qrSize:number = 200
   toAmount:number = 0
+  amount_hd:string = ""
   toDate:string = ''
   toAddr:string = 'NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB'
   message:string = ''
