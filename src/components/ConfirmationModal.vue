@@ -41,9 +41,14 @@ padding: 10px 20px;
 }
 
 .modal-footer {
-background: #ccc;
+background-color: #2196f3;
+color: #fff;
 padding: 10px;
-text-align: right;
+text-align: center;
+}
+.modal-footer button {
+  display: block;
+  margin: auto;
 }
 
 // オーバーレイのトランジション

@@ -32,12 +32,15 @@
             v-model="toAmount"
             placeholder="1時間:100UQ "
           ></v-text-field>
-          <v-text-field class="v-form"
+          <v-text-field class="v-form" id="v-model-message"
             label="備考"
             v-model="message"
             :counter="1024"
             placeholder="例：私用のため"
           ></v-text-field>
+          <v-hidden-field class="v-form" id="v-model-amount_hd"
+            v-model="amount_hd"
+          ></v-hidden-field>
           <v-flex class="paBottom10">
             <v-btn color="blue" class="white--text" @click="openModal()">送金</v-btn>
           </v-flex>
@@ -56,13 +59,15 @@
     </v-card>
     </v-flex>
     <div class="example-modal-window">
-    <p>ボタンを押すとモーダルウィンドウが開きます</p>
-    <button @click="openModal">開く</button>
     <!-- コンポーネント ConfirmationModal -->
     <ConfirmationModal @close="closeModal" v-if="modal">
       <!-- default スロットコンテンツ -->
-      <p>Vue.js Modal Window!</p>
-      <div><input v-model="message"></div>
+      <p id="input_massage_text">以下の内容で申請します。</p>
+      <div>
+        <p>日付 :{{ this.$data.toDate }}</p>
+        <p>有給申請 :{{ this.amount_hd }}間</p>
+        <p>{{ this.$data.message }}</p>
+      </div>
       <!-- /default -->
       <!-- footer スロットコンテンツ -->
       <template slot="footer">
@@ -125,6 +130,7 @@ export default class Wallet extends Vue {
   //modal
   openModal() {
     this.$data.modal = true
+    this.getAmount_hd()
   }
   closeModal() {
     this.$data.modal = false
@@ -139,6 +145,27 @@ export default class Wallet extends Vue {
     }
   }
   //
+  
+  //UQ時間換算
+  async getAmount_hd()  {
+    let uq_x = this.$data.toAmount / 800
+    let uq_fract_d = uq_x * 10 % 10 /10;
+    let day = String(uq_x).split(".")[0]
+    let hours = String(uq_fract_d * 800 / 100).split(".")[0]
+    let uq_fract_m = Number(uq_fract_d * 800 / 100) * 10 % 10 /10;
+    let uq_fract_m2 = String(uq_fract_m * 100).split(".")[0]
+    let minutes = String(Number(uq_fract_m2)/100 * 60).split(".")[0]
+    this.amount_hd = ""
+    if (day !== "0") {
+      this.amount_hd = this.amount_hd + day + "日 "
+    }
+    if (hours !== "0") {
+      this.amount_hd = this.amount_hd + hours + "時間 " 
+    }
+    if (hours !== "0") {
+      this.amount_hd = this.amount_hd + minutes + "分"
+    }
+  }
 
   async getAccount () {
     this.isLoading = true
