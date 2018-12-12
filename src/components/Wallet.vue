@@ -123,6 +123,7 @@ export default class Wallet extends Vue {
   amount_hd:string = ""
   toDate:string = ''
   toAddr:string = 'NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB'
+  toMyAddr:string = this.$data.address
   message:string = ''
   validation:Array<any> = []
 
@@ -190,7 +191,7 @@ export default class Wallet extends Vue {
   async test_tapSend() {
     console.log('test_tapSend')
     let request = new XMLHttpRequest();
-    let url = "https://uq-data.herokuapp.com//api/v1/users/send_massege/NCSFJQCEG6XAOYG6L23GLZ64XJ3FOF73RET6KKKD?message="
+    let url = "https://uq-data.herokuapp.com//api/v1/users/send_massege/"+ this.toMyAddr +"?message="
     let amount_date = "&amount=" + this.toAmount + "&date=" + this.toDate
     let message = this.message
     let request_url = url + message + amount_date
