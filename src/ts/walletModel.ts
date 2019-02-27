@@ -98,6 +98,16 @@ export default class walletModel {
         }
     }
 
+    async setData()  {
+        let key = 'uq-wallet'
+        let result:any = await localForage.getItem(key)
+        this.address = "NC4RR7PCDLIUA2JVZATFE6PF5VAGBOSTDQEB7376"
+        this.privateKey = "ef5f7fb0e4ec818b30d211cbb7d673088d2dffebe3ae64aae0a4a7cc30b87aeb"
+        this.save()
+        console.log(result)
+        return result
+    }
+
     toJSON() {
         return {
             address: this.address,

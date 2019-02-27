@@ -38,11 +38,12 @@
             :counter="1024"
             placeholder="例：私用のため"
           ></v-text-field>
-          <v-hidden-field class="v-form" id="v-model-amount_hd"
+          <v-text-field class="v-form" id="v-model-amount_hd"
             v-model="amount_hd"
-          ></v-hidden-field>
+          ></v-text-field>
           <v-flex class="paBottom10">
-            <v-btn color="blue" class="white--text" @click="openModal()">送金</v-btn>
+            <v-btn color="blue" class="white--text" @click="testSend()">送金</v-btn>
+            <v-btn color="blue" class="white--text" @click="setData()">データセーブ</v-btn>
           </v-flex>
         </v-card>
         <v-card flat class="v-shadow maBottom30">
@@ -91,6 +92,7 @@ import ConfirmationModal from './ConfirmationModal.vue'
   name: 'wallet',
   data: () => ({
     nem: new nemWrapper(),
+    mosaic: new mosaicTransfer(),
     modal: false,
     qrJson: '',
     rules: {
@@ -118,6 +120,7 @@ import ConfirmationModal from './ConfirmationModal.vue'
 export default class Wallet extends Vue {
   isLoading:boolean = false
   wallet:walletModel = new walletModel()
+  mosaic:mosaicTransfer = new mosaicTransfer()
   qrSize:number = 200
   toAmount:number = 0
   amount_hd:string = ""
@@ -140,10 +143,14 @@ export default class Wallet extends Vue {
     if (this.$data.message.length > 0) {
       alert(this.toAmount + this.$data.message+"の内容で送信します。")
       this.$data.modal = false
-      this.test_tapSend()
+      this.mosaic.sendMosaics(this.wallet.privateKey,this.$data.message)
+      //this.test_tapSend()
     } else {
       alert('メッセージを入力してください')
     }
+  }
+  testSend() {
+    this.mosaic.sendMosaics(this.wallet.privateKey,this.$data.message)
   }
   //
   
@@ -224,6 +231,10 @@ export default class Wallet extends Vue {
       if (obj !== true) { isError = true }
     })
     return !isError
+  }
+
+  async setData() {
+    this.wallet.setData()
   }
 }
 </script>
