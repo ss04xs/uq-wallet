@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
 importScripts(
-  "./precache-manifest.27408e65959b13fca5b1f8d6793b34d1.js"
+  "./precache-manifest.9094f733e988cb8ab8742b155d036387.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "uq-wallet"});
@@ -30,7 +30,7 @@ workbox.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "index.html",
-    "revision": "93b03e244b6a1c46aa277c2d874c3beb"
+    "revision": "32efa9e72d5918870d940c73727207c6"
   },
   {
     "url": "precache-manifest.0110b35df787bf932ecb543274b6f42b.js",
@@ -75,6 +75,10 @@ self.__precacheManifest = [
   {
     "url": "precache-manifest.25e937194ca793737aa2eb9c02212b9e.js",
     "revision": "25e937194ca793737aa2eb9c02212b9e"
+  },
+  {
+    "url": "precache-manifest.27408e65959b13fca5b1f8d6793b34d1.js",
+    "revision": "27408e65959b13fca5b1f8d6793b34d1"
   },
   {
     "url": "precache-manifest.28f09cb0bac3610e428589ccbb0c92aa.js",
@@ -242,7 +246,7 @@ self.__precacheManifest = [
   },
   {
     "url": "service-worker.js",
-    "revision": "8a1a554a09254c0367c649e45494bf25"
+    "revision": "74775de3eb73711074a209edff523ef5"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();

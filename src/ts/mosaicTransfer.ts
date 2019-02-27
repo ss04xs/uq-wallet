@@ -104,6 +104,7 @@ export default class mosaicTransfer {
         console.log("PUSHmosaic"+yourMosaic)
         //手数料を正確に計算するためにモザイクの定義を取得する
         let mosaicDefinitionMetaDataPair = nem.model.objects.get('mosaicDefinitionMetaDataPair');
+        console.log("モザイクの定義を取得する")
         nem.com.requests.namespace.mosaicDefinitions(endpoint, yourMosaic.mosaicId.namespaceId).then((res: any) => {
             // モザイク定義を取得してモザイク定義オブジェクトへ格納する
             const neededDefinition = nem.utils.helpers.searchMosaicDefinitionArray(res.data, [yourMosaicName]);
@@ -152,70 +153,5 @@ export default class mosaicTransfer {
             this.publicKey = result.publicKey
         }
         return result
-    }
-
-    //test2
-    // 送金（Mosaic）
-    async sendMosaics2(address:string, privateKey:string, mosaics:Array<any>, message:string) {
-        let common = nem.model.objects.create('common')('', privateKey)
-        let transferTransaction = nem.model.objects.create('transferTransaction')(address, 1, message)
-        let mosaicDefinitionMetaDataPair:any = await this.getMosaicDefinitionMetaDataPair(this.endpoint, mosaics)
-        mosaics.forEach((mosaic) => {
-            let fullMosaicName = mosaic.namespace + ':' + mosaic.name
-            if ((mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition.id.namespaceId === mosaic.namespace) &&
-                (mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition.id.name === mosaic.name)) {
-                let divisibility = 0
-                mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition.properties.forEach((prop:any) => {
-                    if (prop.name === 'divisibility') { divisibility = prop.value }
-                })
-                let quantity = mosaic.amount * Math.pow(10, divisibility)
-                let mosaicAttachment = nem.model.objects.create('mosaicAttachment')(mosaic.namespace, mosaic.name, quantity)
-                transferTransaction.mosaics.push(mosaicAttachment)
-            }
-        })
-        let transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, this.net)
-        let result = await nem.model.transactions.send(common, transactionEntity, this.endpoint)
-        return result
-    }
- 
-    // モザイク定義取得.
-    async getMosaicDefinitionMetaDataPair(endpoint:string, mosaics:Array<any>)
-    {
-        return new Promise(function(resolve, reject) {
-            let mosaicDefinitionMetaDataPair = nem.model.objects.get('mosaicDefinitionMetaDataPair')
-            let mosaicCount = 0
-            mosaics.forEach((mosaic) => {
-                let mosaicAttachment = nem.model.objects.create('mosaicAttachment')(mosaic.namespace, mosaic.name, mosaic.amount)
-                let result = nem.com.requests.namespace.mosaicDefinitions(endpoint, mosaicAttachment.mosaicId.namespaceId)
-                .then((result: any) => {
-                    mosaicCount = mosaicCount + 1
-                    let neededDefinition = nem.utils.helpers.searchMosaicDefinitionArray(result.data, [mosaic.name])
-                    let fullMosaicName = nem.utils.format.mosaicIdToName(mosaicAttachment.mosaicId)
-                    if (undefined === neededDefinition[fullMosaicName]) {
-                        console.error('Mosaic not found !')
-                        return
-                    }
-                    mosaicDefinitionMetaDataPair[fullMosaicName] = {}
-                    mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition = neededDefinition[fullMosaicName]
-                    let supply = 0
-                    result.data.some((obj: any) => {
-                    if ((obj.mosaic.id.namespaceId === mosaic.namespace) &&
-                        (obj.mosaic.id.name === mosaic.name)) {
-                            obj.mosaic.properties.some((prop: any) => {
-                            if (prop.name === 'initialSupply') {
-                                supply = prop.value
-                                return true
-                            }
-                        })
-                    }
-                    })
-                    mosaicDefinitionMetaDataPair[fullMosaicName].supply = supply
-                    if (mosaicCount >= mosaics.length) { resolve(mosaicDefinitionMetaDataPair) }
-                }).catch((e: any) => {
-                    console.error(e)
-                    reject(e)
-                })
-            })
-        })
     }
 }
