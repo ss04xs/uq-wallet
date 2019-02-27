@@ -70,7 +70,7 @@ export default class mosaicTransfer {
         console.log("テスト送金！！！")
         console.log(nem.model.nodes.defaultTestnet)
         console.log(nem.model.network.data.mainnet.id)
-        const host = 'http://alice2.nem.ninja'
+        const host = nem.model.nodes.defaultMainnet
         const port = '7891'
         const net = nem.model.network.data.mainnet.id
         const endpoint = nem.model.objects.create('endpoint')(host, nem.model.nodes.defaultPort);
