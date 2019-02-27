@@ -70,7 +70,7 @@ export default class mosaicTransfer {
         console.log("テスト送金！！！")
         console.log(nem.model.nodes.defaultTestnet)
         console.log(nem.model.network.data.mainnet.id)
-        const host = 'http://62.75.251.134'
+        const host = 'http://alice2.nem.ninja'
         const port = '7891'
         const net = nem.model.network.data.mainnet.id
         const endpoint = nem.model.objects.create('endpoint')(host, nem.model.nodes.defaultPort);
@@ -107,6 +107,7 @@ export default class mosaicTransfer {
         console.log("モザイクの定義を取得する")
         nem.com.requests.namespace.mosaicDefinitions(endpoint, yourMosaic.mosaicId.namespaceId).then((res: any) => {
             // モザイク定義を取得してモザイク定義オブジェクトへ格納する
+            console.log("モザイク定義を取得してモザイク定義オブジェクトへ格納する")
             const neededDefinition = nem.utils.helpers.searchMosaicDefinitionArray(res.data, [yourMosaicName]);
             console.log("neededDefinition" + neededDefinition)
             // モザイク定義オブジェクトで使用するため、モザイクの名前を取得
