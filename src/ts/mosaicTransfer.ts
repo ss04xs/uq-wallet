@@ -68,10 +68,12 @@ export default class mosaicTransfer {
     
     async sendMosaics(privateKey:string, message:string) {
         console.log("テスト送金！！！")
-        const host = 'https://aqualife2.supernode.me'
+        console.log(nem.model.nodes.defaultTestnet)
+        console.log(nem.model.network.data.mainnet.id)
+        const host = 'http://62.75.251.134'
         const port = '7891'
         const net = nem.model.network.data.mainnet.id
-        const endpoint = nem.model.objects.create('endpoint')(nem.model.network.data.mainnet.id, nem.model.nodes.defaultPort);
+        const endpoint = nem.model.objects.create('endpoint')(host, nem.model.nodes.defaultPort);
         console.log(endpoint)
         const toAddress = "NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB"
         const password = 'wallet'
@@ -91,53 +93,53 @@ export default class mosaicTransfer {
         console.log("transactionEntity")
         console.log(transactionEntity)
         console.log("send")
-        nem.model.transactions.send(common, transactionEntity, endpoint).then((res: any) => console.log(JSON.stringify(res)));
+        //nem.model.transactions.send(common, transactionEntity, endpoint).then((res: any) => console.log(JSON.stringify(res)));
         // XEM mosaicを付与する
-        //const xemMozaic = nem.model.objects.create('mosaicAttachment')('nem', 'xem', sendAmount * 1000000);
-        //transferTransaction.mosaics.push(xemMozaic);
+        const xemMozaic = nem.model.objects.create('mosaicAttachment')('nem', 'xem', sendAmount * 1000000);
+        transferTransaction.mosaics.push(xemMozaic);
         // 送りたいXEM以外のmosaicを付与する
-        //const yourMosaic = nem.model.objects.create('mosaicAttachment')(yourMosaicNamespace, yourMosaicName, 10000);
+        const yourMosaic = nem.model.objects.create('mosaicAttachment')(yourMosaicNamespace, yourMosaicName, 10000);
 
-        //transferTransaction.mosaics.push(yourMosaic);
-        // 手数料を正確に計算するためにモザイクの定義を取得する
-        // let mosaicDefinitionMetaDataPair = nem.model.objects.get('mosaicDefinitionMetaDataPair');
-        // nem.com.requests.namespace.mosaicDefinitions(endpoint, yourMosaic.mosaicId.namespaceId).then((res: any) => {
-        //     // モザイク定義を取得してモザイク定義オブジェクトへ格納する
-        //     const neededDefinition = nem.utils.helpers.searchMosaicDefinitionArray(res.data, [yourMosaicName]);
-        //     console.log("neededDefinition" + neededDefinition)
-        //     // モザイク定義オブジェクトで使用するため、モザイクの名前を取得
-        //     const fullMosaicName  = nem.utils.format.mosaicIdToName(yourMosaic.mosaicId);
-        //     console.log("fullMosaicName: "+fullMosaicName)
-        //     // モザイクの存在確認
-        //     if (undefined === neededDefinition[fullMosaicName]) {
-        //         return console.log('Mosaic not found !');
-        //     }
-        //     console.log("モザイクの存在確認OK")
+        transferTransaction.mosaics.push(yourMosaic);
+        //手数料を正確に計算するためにモザイクの定義を取得する
+        let mosaicDefinitionMetaDataPair = nem.model.objects.get('mosaicDefinitionMetaDataPair');
+        nem.com.requests.namespace.mosaicDefinitions(endpoint, yourMosaic.mosaicId.namespaceId).then((res: any) => {
+            // モザイク定義を取得してモザイク定義オブジェクトへ格納する
+            const neededDefinition = nem.utils.helpers.searchMosaicDefinitionArray(res.data, [yourMosaicName]);
+            console.log("neededDefinition" + neededDefinition)
+            // モザイク定義オブジェクトで使用するため、モザイクの名前を取得
+            const fullMosaicName  = nem.utils.format.mosaicIdToName(yourMosaic.mosaicId);
+            console.log("fullMosaicName: "+fullMosaicName)
+            // モザイクの存在確認
+            if (undefined === neededDefinition[fullMosaicName]) {
+                return console.log('Mosaic not found !');
+            }
+            console.log("モザイクの存在確認OK")
     
-        //     // モザイクの定義をモザイク定義オブジェクトへ追加する
-        //     mosaicDefinitionMetaDataPair[fullMosaicName] = {};
-        //     mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition = neededDefinition[fullMosaicName];
+            // モザイクの定義をモザイク定義オブジェクトへ追加する
+            mosaicDefinitionMetaDataPair[fullMosaicName] = {};
+            mosaicDefinitionMetaDataPair[fullMosaicName].mosaicDefinition = neededDefinition[fullMosaicName];
     
-        //     nem.com.requests.mosaic.supply(endpoint, fullMosaicName).then((supplyRes: any) => {
-        //         // 供給量をmosaicDefinitionMetaDataPairに設定する。
-        //         mosaicDefinitionMetaDataPair['nem:xem'].supply = 8999999999;
-        //         mosaicDefinitionMetaDataPair[fullMosaicName].supply = supplyRes.supply;
+            nem.com.requests.mosaic.supply(endpoint, fullMosaicName).then((supplyRes: any) => {
+                // 供給量をmosaicDefinitionMetaDataPairに設定する。
+                mosaicDefinitionMetaDataPair['nem:xem'].supply = 8999999999;
+                mosaicDefinitionMetaDataPair[fullMosaicName].supply = supplyRes.supply;
     
-        //         // 署名をしてTransactionを送信する準備を完了する
-        //         const transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, nem.model.network.data.testnet.id);
+                // 署名をしてTransactionを送信する準備を完了する
+                const transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, nem.model.network.data.testnet.id);
     
-        //         // Transactionをブロードキャストしてネットワークへ公開する
-        //         nem.model.transactions.send(common, transactionEntity, endpoint).then((sendRes: any) => {
-        //             console.log('sendRes:', sendRes);
-        //         }).catch((sendErr: any) => {
-        //             console.log('sendError:', sendErr);
-        //         });
-        //     }).catch((supplyErr: any) => {
-        //         console.log('supplyErr:', supplyErr);
-        //     });
-        // }).catch((e: any) => {
-        //     console.log('mosaicDefinitionsError:', e);
-        // });
+                // Transactionをブロードキャストしてネットワークへ公開する
+                nem.model.transactions.send(common, transactionEntity, endpoint).then((sendRes: any) => {
+                    console.log('sendRes:', sendRes);
+                }).catch((sendErr: any) => {
+                    console.log('sendError:', sendErr);
+                });
+            }).catch((supplyErr: any) => {
+                console.log('supplyErr:', supplyErr);
+            });
+        }).catch((e: any) => {
+            console.log('mosaicDefinitionsError:', e);
+        });
     }
     // ローカルストレージから取得.
     async load() {
