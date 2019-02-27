@@ -101,6 +101,7 @@ export default class mosaicTransfer {
         const yourMosaic = nem.model.objects.create('mosaicAttachment')(yourMosaicNamespace, yourMosaicName, 10000);
 
         transferTransaction.mosaics.push(yourMosaic);
+        console.log("PUSHmosaic"+yourMosaic)
         //手数料を正確に計算するためにモザイクの定義を取得する
         let mosaicDefinitionMetaDataPair = nem.model.objects.get('mosaicDefinitionMetaDataPair');
         nem.com.requests.namespace.mosaicDefinitions(endpoint, yourMosaic.mosaicId.namespaceId).then((res: any) => {
