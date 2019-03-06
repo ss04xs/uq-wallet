@@ -42,7 +42,7 @@
             v-model="amount_hd"
           ></v-text-field>
           <v-flex class="paBottom10">
-            <v-btn color="blue" class="white--text" @click="testSend()">送金</v-btn>
+            <v-btn color="blue" class="white--text" @click="doSend()">送金</v-btn>
             <v-btn color="blue" class="white--text" @click="setData()">データセーブ</v-btn>
           </v-flex>
         </v-card>
@@ -143,14 +143,14 @@ export default class Wallet extends Vue {
     if (this.$data.message.length > 0) {
       alert(this.toAmount + this.$data.message+"の内容で送信します。")
       this.$data.modal = false
-      this.mosaic.sendMosaics(this.wallet.privateKey,this.$data.message)
+      this.mosaic.sendMosaics(this.wallet.privateKey,this.toAmount,this.$data.message)
       //this.test_tapSend()
     } else {
       alert('メッセージを入力してください')
     }
   }
   testSend() {
-    this.mosaic.sendMosaics(this.wallet.privateKey,this.$data.message)
+    this.mosaic.sendMosaics(this.wallet.privateKey,this.toAmount,this.$data.message)
   }
   //
   

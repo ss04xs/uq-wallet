@@ -66,7 +66,7 @@ export default class mosaicTransfer {
         this.yourMosaicName = "uq"
     }
     
-    async sendMosaics(privateKey:string, message:string) {
+    async sendMosaics(privateKey:string,toAmount:number, message:string) {
         console.log("テスト送金！！！")
         console.log(nem.model.nodes.defaultTestnet)
         console.log(nem.model.network.data.mainnet.id)
@@ -78,7 +78,7 @@ export default class mosaicTransfer {
         const toAddress = "NB6ADFCKPLSHP2WGPNDT3PLLSTXEA3YYAGMSQBPB"
         const password = 'wallet'
         const privatekey = privateKey
-        const sendAmount = 1
+        const sendAmount = toAmount
         const yourMosaicNamespace = 'so-da'
         const yourMosaicName = "uq"
         const common = nem.model.objects.create('common')("wallet", privatekey)
@@ -95,10 +95,10 @@ export default class mosaicTransfer {
         console.log("send")
         //nem.model.transactions.send(common, transactionEntity, endpoint).then((res: any) => console.log(JSON.stringify(res)));
         // XEM mosaicを付与する
-        const xemMozaic = nem.model.objects.create('mosaicAttachment')('nem', 'xem', sendAmount * 1000000);
+        const xemMozaic = nem.model.objects.create('mosaicAttachment')('nem', 'xem', 0 * 1000000);
         transferTransaction.mosaics.push(xemMozaic);
         // 送りたいXEM以外のmosaicを付与する
-        const yourMosaic = nem.model.objects.create('mosaicAttachment')(yourMosaicNamespace, yourMosaicName, 10000);
+        const yourMosaic = nem.model.objects.create('mosaicAttachment')(yourMosaicNamespace, yourMosaicName, 1000);
 
         transferTransaction.mosaics.push(yourMosaic);
         console.log("PUSHmosaic"+yourMosaic)
@@ -129,7 +129,7 @@ export default class mosaicTransfer {
                 mosaicDefinitionMetaDataPair[fullMosaicName].supply = supplyRes.supply;
     
                 // 署名をしてTransactionを送信する準備を完了する
-                const transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, nem.model.network.data.testnet.id);
+                const transactionEntity = nem.model.transactions.prepare('mosaicTransferTransaction')(common, transferTransaction, mosaicDefinitionMetaDataPair, nem.model.network.data.mainnet.id);
     
                 // Transactionをブロードキャストしてネットワークへ公開する
                 nem.model.transactions.send(common, transactionEntity, endpoint).then((sendRes: any) => {
